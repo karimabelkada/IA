@@ -12,7 +12,17 @@ def generate_text(prompt, max_length=50):
     inputs = tokenizer(prompt, return_tensors="pt")
     
     # Générer du texte
-    output = model.generate(inputs["input_ids"], max_length=max_length, num_return_sequences=1, no_repeat_ngram_size=2, temperature=0.7)
+    output = model.generate(
+    inputs["input_ids"], 
+    max_length=max_length, 
+    num_return_sequences=1, 
+    no_repeat_ngram_size=2, 
+    temperature=0.7,
+    do_sample=True,  # Pour utiliser le mode échantillonnage
+    pad_token_id=tokenizer.eos_token_id  # Pour gérer le remplissage
+
+)
+
     
     # Décoder et retourner le texte généré
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
